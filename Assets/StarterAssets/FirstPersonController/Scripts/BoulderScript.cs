@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BoulderScript : MonoBehaviour
 {
+    public Transform playerSpawn;
     Vector3 startPos;
     Rigidbody rb;
     [Tooltip("Adjust the thrust of the boulder.")]
@@ -16,6 +17,7 @@ public class BoulderScript : MonoBehaviour
         startPos = transform.position;
         rb = GetComponent<Rigidbody>();
         rb.AddForce(Vector3.up * thrust, ForceMode.Impulse);
+        playerSpawn = GameObject.Find("PlayerSpawn").transform;
     }
 
     // Update is called once per frame
@@ -30,10 +32,16 @@ public class BoulderScript : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "PlayerCollider")
         {
             Debug.Log("Boulder strikes player!");
             ResetBoulder();
+            //This is disabling the character controller
+            collision.gameObject.transform.parent.GetComponent<CharacterController>().enabled = false;
+            //Teleports you back to player spwan
+            collision.gameObject.transform.parent.position = playerSpawn.position;
+            //this turns back on character controller
+            collision.gameObject.transform.parent.GetComponent<CharacterController>().enabled = true;
         }
     }
     void ResetBoulder()
