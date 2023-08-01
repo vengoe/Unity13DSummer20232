@@ -24,8 +24,14 @@ public class EndTrigger : MonoBehaviour
     {
         messageBox.enabled = true;
         messageBox.text = "You Win";
+        playerController.enabled = false;
+        StartCoroutine(SwitchCamera());
+    }
+
+    IEnumerator SwitchCamera()
+    {
+        yield return new WaitForSeconds(2.0f);
         endCamera.SetActive(true);
         playerCamera.SetActive(false);
-        playerController.enabled = false;
     }
 }
