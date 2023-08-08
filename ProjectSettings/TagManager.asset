@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - PlayerCollider
+  - Paddle
   layers:
   - Default
   - TransparentFX
